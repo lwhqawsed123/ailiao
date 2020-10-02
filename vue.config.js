@@ -37,7 +37,7 @@ module.exports = {
       // ["/api"]: {
         // target: `http://localhost:8080`,
         // target: 'http://39.108.117.10:8888/index.php',// 本地
-        // target: 'http://inallog.com:8888/index.php',// 爱聊就聊
+        // target: 'http://inallog.com:8899/index.php',// 爱聊就聊
         target: 'http://cps.mimilive.cn:8888/index.php',// 陌兔
         // target: 'http://cps.howfuli.com:8888/index.php',// 陌聊
         changeOrigin: true,

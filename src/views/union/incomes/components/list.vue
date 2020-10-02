@@ -324,7 +324,40 @@
             </el-tooltip>
           </template>
         </el-table-column>-->
-        
+         <el-table-column label="操作" min-width="160px">
+          <!-- <template slot="header">
+            <span>操作</span>
+            <el-tooltip class="item" effect="dark" content="提示文字" placement="top">
+              <i class="el-icon-question icon-color"></i>
+            </el-tooltip>
+          </template> -->
+          <template slot-scope="scope">
+            <el-button
+              icon="el-icon-chat-line-round"
+              size="mini"
+              title="聊天记录"
+              @click="openChattingRecords(scope.row)"
+              style="margin-bottom:5px"
+              v-if="scope.row.id!=='0'"
+            ></el-button>
+            <el-button
+              icon="el-icon-sell"
+              size="mini"
+              title="备注修改"
+              @click="openMymember(scope.row.userid)"
+              style="margin-bottom:5px"
+              v-if="scope.row.id!=='0'"
+            ></el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-remove"
+              plain
+              @click="removeBind(scope.row)"
+              size="mini"
+              v-if="scope.row.id!=='0'"
+            >解绑</el-button>
+          </template>
+        </el-table-column>
         <!-- </el-table> -->
       </my-table>
       <!-- <my-pagination
@@ -338,17 +371,28 @@
     </div>
     <!-- 用户详情组件 -->
     <detail v-if="userDetail.userid" :userDetail="userDetail"></detail>
+    <!-- 聊天记录弹框 -->
+    <chattingRecords v-if="chattingData.userid" :chattingData="chattingData"></chattingRecords>
+    <!-- 备注弹框 -->
+    <mymember v-if="mymemberData.id" :mymemberData="mymemberData" @getOnlineList="getOnlineList"></mymember>
+
   </div>
 </template>
 
 <script>
 import { get_user_by_id } from "@/api/union/anchors/list.js";
 import { list, exportAllExcel } from "@/api/union/incomes/list.js";
+import {
+  unbind,
+} from "@/api/union/anchors/list.js";
 import detail from "@/views/common_components/detail/detail.vue";
 import infoPopover from "@/views/common_components/infoPopover/infoPopover.vue";
-
+import chattingRecords from "@/views/common_components/chattingRecords/chattingRecords.vue";
+import mymember from "@/views/union/anchors/components/mymember.vue";
 export default {
   components: {
+    chattingRecords: chattingRecords,
+    mymember,
     detail,
     infoPopover,
   },
@@ -399,6 +443,13 @@ export default {
         timestamp: "",
         userid: "",
       },
+       // ====聊天记录=====
+      chattingData: {
+        timestamp: "",
+        userid: "",
+      },
+      // 备注弹框数据
+      mymemberData: {},
     };
   },
   created() {
@@ -432,6 +483,40 @@ export default {
     openDetail(id) {
       this.userDetail.timestamp = new Date().getTime();
       this.userDetail.userid = id;
+    },
+     // 打开聊天记录弹框
+    openChattingRecords(row) {
+      this.chattingData.timestamp = new Date().getTime();
+      this.chattingData.userid = row.userid;
+      this.chattingData.username = row.username;
+    },
+     // 打开主播分成
+    openMymember(id) {
+      this.mymemberData = {
+        timestamp: new Date().getTime(),
+        id: id,
+      };
+    },
+     // 解绑主播
+    removeBind(row) {
+      this.$confirm("是否解绑该用户?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        let data = {
+          groupid: this.$store.state.user.groupInfo.id,
+          userid: row.userid,
+        };
+        unbind(data).then((res) => {
+          if (res.code === 0) {
+            this.$message.success(res.info);
+            this.getOnlineList();
+          }
+        });
+      }).catch(()=>{
+        return false
+      })
     },
     // 点击导出按钮
     toExportExcel() {

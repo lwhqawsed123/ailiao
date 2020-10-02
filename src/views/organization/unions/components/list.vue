@@ -150,6 +150,13 @@
             <span>{{scope.row.status==='1'?'正常':'无效'}}</span>
           </template>
         </el-table-column>
+        <el-table-column prop="jinfen_today" min-width="80" label="今日积分"></el-table-column>
+        <el-table-column prop="jinfen_yesterday" min-width="80" label="昨日积分"></el-table-column>
+        <el-table-column prop="jinfen_average" min-width="80" label="昨日人均积分">
+           <template slot-scope="scope">
+            <span>{{sumAverage(scope.row)}}</span>
+          </template>
+        </el-table-column>
         <el-table-column min-width="120" label="操作">
           <template slot-scope="scope">
             <el-button
@@ -486,6 +493,16 @@ export default {
       this.userDetail.timestamp = new Date().getTime();
       this.userDetail.userid = id;
     },
+    // 计算平均积分
+    sumAverage(row){
+       // m_members 成员数 jinfen_yesterday 昨日总积分
+       let m_members=parseInt(row.m_members)
+       let jinfen_yesterday=parseInt(row.jinfen_yesterday)
+       if(m_members&&jinfen_yesterday){
+         return parseInt(jinfen_yesterday/m_members).toFixed(2)
+       }
+       return "-"
+    }
   },
 };
 </script>

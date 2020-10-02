@@ -688,7 +688,9 @@ export default {
             this.getOnlineList();
           }
         });
-      });
+      }).catch(()=>{
+        return false
+      })
     },
     // 打开主播分成
     openMymember(id) {
