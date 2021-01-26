@@ -325,20 +325,12 @@
           </template>
         </el-table-column>-->
          <el-table-column label="操作" min-width="160px">
-<<<<<<< HEAD
           <template slot="header">
-=======
-          <!-- <template slot="header">
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
             <span>操作</span>
             <el-tooltip class="item" effect="dark" content="提示文字" placement="top">
               <i class="el-icon-question icon-color"></i>
             </el-tooltip>
-<<<<<<< HEAD
           </template>
-=======
-          </template> -->
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
           <template slot-scope="scope">
             <el-button
               icon="el-icon-chat-line-round"
@@ -346,10 +338,6 @@
               title="聊天记录"
               @click="openChattingRecords(scope.row)"
               style="margin-bottom:5px"
-<<<<<<< HEAD
-=======
-              v-if="scope.row.id!=='0'"
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
             ></el-button>
             <el-button
               icon="el-icon-sell"
@@ -357,10 +345,6 @@
               title="备注修改"
               @click="openMymember(scope.row.userid)"
               style="margin-bottom:5px"
-<<<<<<< HEAD
-=======
-              v-if="scope.row.id!=='0'"
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
             ></el-button>
             <el-button
               type="danger"
@@ -368,10 +352,6 @@
               plain
               @click="removeBind(scope.row)"
               size="mini"
-<<<<<<< HEAD
-=======
-              v-if="scope.row.id!=='0'"
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
             >解绑</el-button>
           </template>
         </el-table-column>
@@ -390,12 +370,6 @@
     <detail v-if="userDetail.userid" :userDetail="userDetail"></detail>
     <!-- 聊天记录弹框 -->
     <chattingRecords v-if="chattingData.userid" :chattingData="chattingData"></chattingRecords>
-<<<<<<< HEAD
-=======
-    <!-- 备注弹框 -->
-    <mymember v-if="mymemberData.id" :mymemberData="mymemberData" @getOnlineList="getOnlineList"></mymember>
-
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
   </div>
 </template>
 
@@ -408,11 +382,6 @@ import {
 import detail from "@/views/common_components/detail/detail.vue";
 import infoPopover from "@/views/common_components/infoPopover/infoPopover.vue";
 import chattingRecords from "@/views/common_components/chattingRecords/chattingRecords.vue";
-<<<<<<< HEAD
-
-=======
-import mymember from "@/views/union/anchors/components/mymember.vue";
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
 export default {
   components: {
     chattingRecords: chattingRecords,
@@ -468,20 +437,11 @@ export default {
         timestamp: "",
         userid: "",
       },
-<<<<<<< HEAD
       // ====聊天记录=====
-=======
-       // ====聊天记录=====
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
       chattingData: {
         timestamp: "",
         userid: "",
       },
-<<<<<<< HEAD
-=======
-      // 备注弹框数据
-      mymemberData: {},
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
     };
   },
   created() {
@@ -522,37 +482,6 @@ export default {
       this.chattingData.userid = row.userid;
       this.chattingData.username = row.username;
     },
-<<<<<<< HEAD
-=======
-     // 打开主播分成
-    openMymember(id) {
-      this.mymemberData = {
-        timestamp: new Date().getTime(),
-        id: id,
-      };
-    },
-     // 解绑主播
-    removeBind(row) {
-      this.$confirm("是否解绑该用户?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      }).then(() => {
-        let data = {
-          groupid: this.$store.state.user.groupInfo.id,
-          userid: row.userid,
-        };
-        unbind(data).then((res) => {
-          if (res.code === 0) {
-            this.$message.success(res.info);
-            this.getOnlineList();
-          }
-        });
-      }).catch(()=>{
-        return false
-      })
-    },
->>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
     // 点击导出按钮
     toExportExcel() {
       this.$confirm("确定下载主播收入分析吗?", "提示", {
