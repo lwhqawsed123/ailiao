@@ -27,7 +27,6 @@ service.interceptors.request.use(
       config.headers['TokenBearer'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
     if (!config.noLoading) {
-      console.log("loading");
       loading = Loading.service({
         lock: true,
         spinner: "el-icon-loading",
@@ -38,7 +37,6 @@ service.interceptors.request.use(
     return config
   },
   error => {
-    // console.log(error)
     Promise.reject(error)
   }
 )
@@ -46,11 +44,9 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(res => {
   if (loading !== null) {
-    console.log("关闭loading");
     loading.close()
     loading = null
   }
-  console.log(res)
   if (res.headers['content-disposition'] && res.headers['content-disposition'].indexOf('attachment') !== -1) {
     const disposition = res.headers['content-disposition'];
     let fileName = disposition.substring(disposition.indexOf('filename=') + 9, disposition.length);
@@ -58,7 +54,6 @@ service.interceptors.response.use(res => {
     fileName = decodeURI(escape(fileName))
     // 去掉双引号
     fileName = fileName.replace(/\"/g, "");
-    console.log(fileName);
 
     let data = {
       fileName,
@@ -118,10 +113,19 @@ service.interceptors.response.use(res => {
   }
 },
   error => {
+<<<<<<< HEAD
     if (loading !== null) {
       loading.close()
       loading = null
     }
+=======
+    // if (error.config.loading) {
+    //   setTimeout(() => {
+    //     loading.close()
+    //     loading = ''
+    //   }, 500);
+    // }
+>>>>>>> 592e8c094b026f8899f6f43740f0f3c426955fa1
     //  1.判断请求超时
     if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
       // console.log('根据你设置的timeout/真的请求超时 判断请求现在超时了，你可以在这里加入超时的处理方案')
@@ -129,7 +133,6 @@ service.interceptors.response.use(res => {
         title: '请求超时'
       })
     }
-    // console.log('err' + error)
     Message({
       message: error.message,
       type: 'error',

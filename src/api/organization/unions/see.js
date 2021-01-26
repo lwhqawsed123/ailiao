@@ -37,3 +37,19 @@ export function delete_by_id(data) {
         method: 'GET'
     })
 }
+
+// 获取公会详情
+export function get_detail_by_id(data) {
+    return request({
+        url: `/live/group/view/${data}`,
+        method: 'GET'
+    })
+}
+
+// 获取公会详情
+export function get_group_data(data) {
+    return request({
+        url: `/live/group/view/${data}`,
+        method: 'GET'
+    })
+}

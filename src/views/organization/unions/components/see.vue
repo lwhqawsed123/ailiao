@@ -1,5 +1,5 @@
 <template>
-  <!-- 家财凭证管理 -->
+  <!-- 公会详情 -->
   <div class="record">
     <div class="record-conter">
       <el-row :gutter="20" class="record-top" style="margin-left: 0px; margin-right: 0px;">
@@ -77,6 +77,7 @@
           </el-form>
         </el-col>
       </el-row>
+      <unions-detail :id="obj&&obj.id"></unions-detail>
        <my-table
         :tableData="tableData"
         :formInline="formInline"
@@ -344,12 +345,13 @@ import {
 } from "@/utils/options/organization.js";
 import { preMonthToToday } from "@/utils/common";
 import detail from "@/views/common_components/detail/detail.vue";
-
+import unionsDetail from "./components/unionsDetail"
 export default {
   name: "Unions_see",
   props: ["obj"],
   components: {
     detail,
+    unionsDetail
   },
   data() {
     return {
