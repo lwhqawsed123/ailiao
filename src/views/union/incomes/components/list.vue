@@ -324,7 +324,37 @@
             </el-tooltip>
           </template>
         </el-table-column>-->
-        
+         <el-table-column label="操作" min-width="160px">
+          <template slot="header">
+            <span>操作</span>
+            <el-tooltip class="item" effect="dark" content="提示文字" placement="top">
+              <i class="el-icon-question icon-color"></i>
+            </el-tooltip>
+          </template>
+          <template slot-scope="scope">
+            <el-button
+              icon="el-icon-chat-line-round"
+              size="mini"
+              title="聊天记录"
+              @click="openChattingRecords(scope.row)"
+              style="margin-bottom:5px"
+            ></el-button>
+            <el-button
+              icon="el-icon-sell"
+              size="mini"
+              title="备注修改"
+              @click="openMymember(scope.row.userid)"
+              style="margin-bottom:5px"
+            ></el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-remove"
+              plain
+              @click="removeBind(scope.row)"
+              size="mini"
+            >解绑</el-button>
+          </template>
+        </el-table-column>
         <!-- </el-table> -->
       </my-table>
       <!-- <my-pagination
@@ -338,6 +368,8 @@
     </div>
     <!-- 用户详情组件 -->
     <detail v-if="userDetail.userid" :userDetail="userDetail"></detail>
+    <!-- 聊天记录弹框 -->
+    <chattingRecords v-if="chattingData.userid" :chattingData="chattingData"></chattingRecords>
   </div>
 </template>
 
@@ -346,11 +378,13 @@ import { get_user_by_id } from "@/api/union/anchors/list.js";
 import { list, exportAllExcel } from "@/api/union/incomes/list.js";
 import detail from "@/views/common_components/detail/detail.vue";
 import infoPopover from "@/views/common_components/infoPopover/infoPopover.vue";
+import chattingRecords from "@/views/common_components/chattingRecords/chattingRecords.vue";
 
 export default {
   components: {
     detail,
     infoPopover,
+    chattingRecords
   },
   data() {
     return {
@@ -399,6 +433,11 @@ export default {
         timestamp: "",
         userid: "",
       },
+      // ====聊天记录=====
+      chattingData: {
+        timestamp: "",
+        userid: "",
+      },
     };
   },
   created() {
@@ -432,6 +471,12 @@ export default {
     openDetail(id) {
       this.userDetail.timestamp = new Date().getTime();
       this.userDetail.userid = id;
+    },
+     // 打开聊天记录弹框
+    openChattingRecords(row) {
+      this.chattingData.timestamp = new Date().getTime();
+      this.chattingData.userid = row.userid;
+      this.chattingData.username = row.username;
     },
     // 点击导出按钮
     toExportExcel() {

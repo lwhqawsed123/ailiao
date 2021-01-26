@@ -135,7 +135,7 @@ export const constantRoutes = [
 
 export default new Router({
   mode: 'history', // 去掉url中的#
-  base: '/front/',  // 线上需要,本地测试需要注释掉此行'
+  base: process.env.NODE_ENV === "production" ? "/front/" : "",  // 线上需要,本地测试需要注释掉此行'
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })

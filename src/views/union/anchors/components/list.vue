@@ -604,14 +604,11 @@ export default {
       this.chattingData.timestamp = new Date().getTime();
       this.chattingData.userid = row.userid;
       this.chattingData.username = row.username;
-      console.log("点击了按钮");
-      console.log(this.chattingData.timestamp);
-
     },
     // 子组件关闭窗口
-    closeDialog(params) {
-      this.chattingRecordsDialog = params;
-    },
+    // closeDialog(params) {
+    //   this.chattingRecordsDialog = params;
+    // },
     // ==========绑定主播============
     // 重置表单
     resetForm(formName) {
